@@ -28,9 +28,14 @@ aREST_UI() {
 
 }
 
-// Get title
-void title(String the_title) {
-  ui_title = the_title;
+// Set title
+void set_title(String title) {
+  if (ui_title.length() != 0) {
+      ui_title = title;
+    }
+    else {
+      ui_title = "Interface";
+    }
 }
 
 // Create button
@@ -70,7 +75,11 @@ virtual void root_answer() {
     // Answer
     addToBuffer("HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n");
     addToBuffer("<html><head>");
+    
     addToBuffer("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
+    addToBuffer("<title>");
+    addToBuffer(ui_title)
+    addToBuffer("</title>");
     addToBuffer("<script ");
     addToBuffer("src=\"http://code.jquery.com/jquery-2.1.3.min.js\">");
     addToBuffer("</script>");
@@ -81,14 +90,10 @@ virtual void root_answer() {
     addToBuffer("<div class=\"container\">");
 
     // Title
-    if (ui_title.length() != 0) {
+   
       addToBuffer("<h1>");
       addToBuffer(ui_title);
       addToBuffer("</h1>");
-    }
-    else {
-      addToBuffer("<h1>Interface</h1>");
-    }
 
     // Buttons UI
     for (int i = 0; i < buttons_index; i++) {
